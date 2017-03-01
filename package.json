@@ -1,0 +1,37 @@
+{
+  "name": "aaenigma",
+  "version": "1.0.0",
+  "description": "A simple encoding game for use with Axis and Allies",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "cors": "^2.8.1",
+    "express": "^4.14.1",
+    "massive": "^2.6.0"
+  },
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-cachebust": "0.0.6",
+    "gulp-concat": "^2.6.1",
+    "gulp-print": "^2.0.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CdrXander/AAEnigma.git"
+  },
+  "author": "Xander Hacking",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CdrXander/AAEnigma/issues"
+  },
+  "homepage": "https://github.com/CdrXander/AAEnigma#readme"
+}

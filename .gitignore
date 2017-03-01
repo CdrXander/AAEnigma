@@ -1,7 +1,11 @@
 node_modules
-*.sublime*
 config.js
+
+# Editor Files #
+################
+.idea
 sublime
+*.sublime*
 
 # Logs and databases #
 ######################
