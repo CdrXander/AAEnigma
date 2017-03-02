@@ -1,0 +1,9 @@
+
+//Message
+{
+    "country_id":2,
+    "bonus_id":1,
+    "cipher_id":2,
+    "cipher_word":"ZEBRAS" ,
+    "message_plain":"From Allied Command: Our Russian ambassadors have made a successful deal with Brazil. Additional resources are on their way"
+}

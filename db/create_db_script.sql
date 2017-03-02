@@ -106,7 +106,7 @@ CREATE TABLE public.bonus
     task_description text,
     default_message text,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE public.cipher
 (
@@ -115,14 +115,14 @@ CREATE TABLE public.cipher
     ipc_cost integer,
     cipher_word text,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE public.message_status
 (
     id integer NOT NULL DEFAULT nextval('message_status_pk'),
     name text,
     PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE public.message
 (
@@ -140,7 +140,7 @@ CREATE TABLE public.message
     FOREIGN KEY (bonus_id) REFERENCES public.bonus (id),
     FOREIGN KEY (message_status_id) REFERENCES public.message_status (id),
     FOREIGN KEY (cipher_id) REFERENCES public.cipher (id)
-)
+);
 
 CREATE TABLE public.task
 (
@@ -150,8 +150,8 @@ CREATE TABLE public.task
     task_description text,
     completed boolean,
     PRIMARY KEY (id),
-    FOREIGN KEY (message_id) REFFERENCES public.message (id)
-)
+    FOREIGN KEY (message_id) REFERENCES public.message (id)
+);
 
 
 -- INITIALIZATION DATA  =   =   =   =   =   =   =
@@ -189,4 +189,28 @@ INSERT INTO public.message_status VALUES (5, 'USED');
 
 
 -- TEST DATA    =   =   =   =   =   =   =   =   =
+
+INSERT INTO public.cipher VALUES (1,1,1,'ZONE');
+INSERT INTO public.cipher VALUES (2,2,2,'ZEBRAS');
+INSERT INTO public.cipher VALUES (3,3,3,'MAXIMIZE');
+
+INSERT INTO public.bonus VALUES (1,
+                                    'Trade Deal',
+                                    'Gain 5 additional IPCs',
+                                    'Give 5 IPCs to <COUNTRY>',
+                                    'From <TEAM> Command: Our <DEMONYM> ambassadors have made a successful deal with Brazil. Additional resources are on their way'
+                                );
+INSERT INTO public.bonus VALUES (2,
+                                    'Surpise Attack',
+                                    'When you next attack the specified country, you gain an additional 3 infantry, or 1 infantry and 1 armor',
+                                    'Give <COUNTRY> Additional Units when attacking <TERRITORY>',
+                                    '<OFFICER_TITLE> <OFFICER_NAME> is moving additional forces to support your attack on <TERRITORY>'
+                                );
+
+INSERT INTO public.bonus VALUES (3,
+                                    'Sabotage',
+                                    'Deal 1d6 of damage to enemy facility in specified territory',
+                                    'Deal 1d6 of damage to <FACILITY> in <TERRITORY>',
+                                    'Our agents have infiltrated the <DEMONYM> <FACILITY> in <TERRITORY>. They stand ready to sabotage on your command'
+                                );
 
