@@ -53,6 +53,11 @@ angular.module('enigmaApp').service('apiService', function($http, $q, $location)
         return genericGet("/api/cipher/list");
     };
 
+    this.findBonusById = bonusId => {
+        return genericGet("/api/bonus/" + bonusId);
+    }
+
+
 
     //MESSAGES  =   =   =   =   =   =   =   =   =   =   =   =   =   =
     this.loadEncoderMessageList = () => {
@@ -73,6 +78,8 @@ angular.module('enigmaApp').service('apiService', function($http, $q, $location)
             });
         return deferred.promise;
     }
+
+    this. 
 
 
 });
