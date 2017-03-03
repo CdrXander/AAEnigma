@@ -1,3 +1,50 @@
 * {
   box-sizing: border-box;
 }
+
+main {
+  padding: 10px;
+}
+
+header {
+  height:10vh;
+  background-color: rgba(10,10,10,.80);
+  width: 100%;
+  min-height: 60px;
+  color: white;
+  padding: 10px ;
+
+  display:flex;
+  align-content: center;
+}
+
+
+//Custom Classes
+
+.encoderBox {
+  display: flex;
+
+  ul {
+    list-style: none;
+    li {
+      list-style: none;
+    }
+  }
+
+  div {
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+
+  .toolsPane {
+    width:30vw;
+
+    select {
+      display: block;
+    }
+  }
+
+  .messagePane {
+    width: 70vw;
+  }
+}

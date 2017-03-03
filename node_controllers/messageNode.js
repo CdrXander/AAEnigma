@@ -2,13 +2,16 @@ var app =  require('./../server.js');
 
 
 module.exports = {
-	createMessage:createMessage
+	createMessage:createMessage,
+	getMessageFullById:getMessageFullById,
+	getEncoderMessageList:getEncoderMessageList,
+	encodeMessage:encodeMessage
 };
 
 function createMessage(req,res) {
 	var db = app.get('db');
 
-	var messageEncoded = encodeMessage(req.body.cipher_word, req.body.message_plain);
+	var messageEncoded = enigmaAlgorithm(req.body.cipher_word, req.body.message_plain);
 
 	var newMessage = {
 		country_id:req.body.country_id,
@@ -31,13 +34,38 @@ function createMessage(req,res) {
 
 }
 
+function getMessageFullById(req,res) {
+    var db = app.get('db');
+
+    db.message.findOne(parseInt(req.params.id), function(err, message) {
+        if(!err) {
+            res.status(200).send(message);
+        } else {
+            res.status(500).send(err);
+        }
+    })
+}
+
+function getEncoderMessageList(req,res) {
+    var db = app.get('db');
+ 	 db.get_encoder_message_list([req.session.currentUser.team_id], function(err, messageList) {
+ 	 	handleReturn("getEncoderMessageList", err, messageList, res);
+	 })
+}
+
+function encodeMessage(req,res) {
+	var encodedMessage = enigmaAlgorithm(req.body.cipher_word, req.body.message_plain);
+	res.status(200).send(encodedMessage);
+}
 
 
 
 
 
 
-function encodeMessage(cipherWord, message) {
+//Private support function
+
+function enigmaAlgorithm(cipherWord, message) {
 
 	var alphabet = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ').split('');
 
@@ -64,4 +92,14 @@ function encodeMessage(cipherWord, message) {
 	}
 	messageEncoded = messageEncoded.join('');
 	return messageEncoded;
+}
+
+function handleReturn(method_name, err, result, res) {
+    if(!err) {
+        res.status(200).send(result);
+    } else {
+    	console.log("Error in " + method_name);
+    	console.log(err);
+        res.status(500).send(err);
+    }
 }

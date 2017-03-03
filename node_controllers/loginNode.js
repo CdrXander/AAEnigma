@@ -21,7 +21,7 @@ function login(req, res) {
             } else {
                 delete result[0].password;
                 req.session.currentUser = result[0];
-                res.status(200).send(req.session.currentUser);
+               res.status(200).send(req.session.currentUser);
             }
         } else {
             res.status(500).send(err);

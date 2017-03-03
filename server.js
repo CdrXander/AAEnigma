@@ -8,7 +8,7 @@ var config 		= require('./config.js');
 var port = 3000;
 
 
-//Initialize, Export, and Configure the app
+//Initialize, Export, and Configure the app	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=
 var app = module.exports = express();
 app.use(bodyParser.json());
 app.use(session(
@@ -34,9 +34,16 @@ var loginNode 		= require('./node_controllers/loginNode.js');
 var messageNode		= require('./node_controllers/messageNode.js');
 
 //Custom Middleware
-//END POINTS
 
+var authCheck = function(req,res,next) {
+	if(!!req.session && !!req.session.currentUser) {
+		next();
+	} else {
+		res.status(401).send("You must be logged in to use this resource");
+	}
+}
 
+//END POINTS	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=	=
 //Authentication
 app.post('/api/auth/login', loginNode.login);
 
@@ -49,8 +56,12 @@ app.get('/api/cipher/list', logisticNode.getAllCiphers);
 
 //Messages
 app.post('/api/message', messageNode.createMessage);
+app.post('/api/message/encode', messageNode.encodeMessage);
+app.get('/api/message/full/:id', messageNode.getMessageFullById);
+app.get('/api/message/list/encoder', authCheck, messageNode.getEncoderMessageList);
 
 
+//Spin up the drives
 app.listen(port, function() {
   console.log("Started server on port", port);
 });

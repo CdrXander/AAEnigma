@@ -1,0 +1,44 @@
+<section class="encoderBox">
+
+    <div class="toolsPane">
+        <select ng-model="chosenCountry" ng-options="country.name for country in countryList">
+        </select>
+
+        <select ng-model="chosenBonus" ng-options="bonus.title for bonus in bonusList">
+        </select>
+
+        <select ng-model="chosenCipher" ng-options="cipher.cipher_word for cipher in cipherList">
+        </select>
+
+
+        <div>
+            <ul>
+                <li ng-repeat="message in messageList">
+                    {{message.country_name}} - {{message.title}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="messagePane">
+        <div class="bonusDetail">
+            <p>
+                {{chosenBonus.bonus_description}}
+            </p>
+        </div>
+        <div class="defaultMessage">
+            <p>
+                {{chosenBonus.default_message}}
+            </p>
+        </div>
+        <div>
+            <input type="text" ng-model="inputMessage" ng-change="liveEncodeMessage()">
+        </div>
+        <div>
+            <p>
+                {{encodedMessage}}
+            </p>
+        </div>
+    </div>
+
+</section>
