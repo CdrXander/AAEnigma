@@ -21,30 +21,111 @@ header {
 
 //Custom Classes
 
-.encoderBox {
-  display: flex;
+.system-message-pane {
+  display: block;
+  width: 100%;
 
+  .system-error {
+    background-color: red;
+  }
+
+}
+
+.encoder-view, .decoder-view, .admin-tab {
+  .work-box {
+    display: flex;
+    margin: 10px 0 10px 0;
+
+    ul {
+      list-style: none;
+      li {
+        list-style: none;
+      }
+    }
+
+    div {
+      border: 1px solid black;
+      border-radius: 5px;
+      padding:5px;
+      margin:2px;
+    }
+
+
+
+    .tools-pane {
+      width:30%;
+
+      select {
+        display: block;
+      }
+
+      .message-queue-item {
+        margin: 5px 0;
+        border:1px solid red;
+      }
+    }
+
+    .details-pane {
+      width: 70%;
+
+      .detail-box {
+        border: none;
+        width: 50%;
+        padding: 5px;
+      }
+    }
+  }
+}
+
+.admin-view {
   ul {
     list-style: none;
-    li {
-      list-style: none;
-    }
+    padding: 0;
+    margin: 0;
   }
-
-  div {
+  .tab-class{
+    float: left;
+    border: 1px solid #000;
+    border-bottom-width: 0;
+    margin: 3px 3px 0px 3px;
+    padding: 5px 5px 0px 5px;
+    background-color: #CCC;
+  }
+  #mainView {
     border: 1px solid black;
-    border-radius: 5px;
+    clear: both;
+    padding: 0 1em;
   }
-
-  .toolsPane {
-    width:30vw;
-
-    select {
-      display: block;
-    }
+  .active {
+    background-color: #FFF;
+    color: #000;
   }
+}
 
-  .messagePane {
-    width: 70vw;
-  }
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+.message-status {
+
+  margin:2px !important;
+  padding:5px !important;
+  border: 2px solid black !important;
+  border-radius: 5px!important;
+}
+
+.sent {
+  border-color: yellow;
+}
+.failed {
+  border-color: red;
+}
+.success {
+  border-color: green;
+}
+.used {
+  background-color: #CCCCCC;
+  border-color: black;
 }

@@ -1,0 +1,38 @@
+
+<section class="admin-tab">
+    <div class="work-box">
+        <div class="tools-pane">
+            <ul>
+                <li ng-repeat="message in messageList">
+                    <span class="message-queue-item" ng-click="loadMessage(message.id)">
+                        {{message.country_name}} - {{message.title}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="details-pane">
+            <div class="detail-box">
+                <label>Encoded Message</label>
+                <p>{{fullMessage.message_encoded}}</p>
+                <label>Cipher</label>
+                <p>{{fullMessage.cipher_word}}</p>
+                <label>Raw Message</label>
+                <p>{{fullMessage.message_plain}}</p>
+            </div>
+            <div class="detail-box">
+
+                <p>Country: {{fullMessage.country_name}}</p>
+                <p>Status : {{fullMessage.status_name}}</p>
+                <select ng-model="chosenStatus" ng-options="status.name for status in statusList">
+                </select>
+
+
+                <button ng-click="updateMessageStatus(chosenStatus.id)">Update Message Status</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>

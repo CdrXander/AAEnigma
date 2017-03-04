@@ -1,0 +1,14 @@
+<section class="admin-view">
+    <h1>Admin Page</h1>
+    <ul>
+        <li class="tab-class" ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}"
+            ng-click="onClickTab(tab)">
+            {{tab.title}}
+        </li>
+    </ul>
+    <div id="mainView">
+        <div ng-include="currentTab"></div>
+    </div>
+
+
+</section>

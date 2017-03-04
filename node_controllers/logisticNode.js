@@ -2,12 +2,29 @@ var app = require('./../server.js');
 
 module.exports = {
     getAllCountries:getAllCountries,
+    getAllStatuses:getAllStatuses,
+    saveBonus:saveBonus,
     getAllBonuses:getAllBonuses,
     getBonusById:getBonusById,
-    getAllCiphers: getAllCiphers
+    saveCipher:saveCipher,
+    getAllCiphers: getAllCiphers,
+    saveTask:saveTask,
+    getAllTasks:getAllTasks
 };
 
+//Support functions
+function handleReturn(method_name, err, result, res) {
+    if(!err) {
+        res.status(200).send(result);
+    } else {
+        console.log("Error in " + method_name);
+        console.log(err);
+        res.status(500).send(err);
+    }
+}
 
+
+//End point functions
 function getAllCountries(req, res) {
     var db = app.get('db');
 
@@ -18,6 +35,23 @@ function getAllCountries(req, res) {
             res.status(500).send(err);
         }
 
+    })
+}
+
+function getAllStatuses(req,res) {
+    var db = app.get('db');
+
+    db.message_status.find({}, function (err, statusList) {
+        handleReturn("getAllStatuses", err, statusList, res);
+    })
+}
+
+
+//This function handles both CREATE and UPDATE
+function saveBonus(req, res) {
+    var db = app.get('db');
+    db.bonus.save(req.body, function(err, bonus) {
+        handleReturn("saveBonus", err, bonus, res);
     })
 }
 
@@ -45,6 +79,19 @@ function getBonusById(req, res) {
     })
 }
 
+function useBonus(message_id) {
+    var db = app.get('db');
+
+    db.get_message_and_bonus([])
+}
+
+function saveCipher(req, res) {
+    var db = app.get('db');
+    db.cipher.save(req.body, function(err, cipher) {
+        handleReturn("saveCipher", err, cipher, res);
+    })
+}
+
 function getAllCiphers(req,res) {
     var db = app.get('db');
 
@@ -56,4 +103,19 @@ function getAllCiphers(req,res) {
         }
     })
 
+}
+
+
+function saveTask(req, res) {
+    var db = app.get('db');
+    db.task.save(req.body, function(err, task) {
+        handleReturn("saveTask", err, task, res);
+    });
+}
+
+function getAllTasks(req,res) {
+    var db = app.get('db');
+    db.get_all_tasks([], function(err, tasks) {
+        handleReturn("getAllTasks",err,tasks,res);
+    });
 }

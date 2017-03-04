@@ -20,6 +20,16 @@ angular.module('enigmaApp', ['ui.router']).config(function($stateProvider, $urlR
             url:'/encoder',
             templateUrl: './views/encoder.html',
             controller: 'encoderCtrl'
+        })
+        .state('decoder', {
+            url:'/decoder',
+            templateUrl:'./views/decoder.html',
+            controller:'decoderCtrl'
+        })
+        .state('admin', {
+            url:'/admin',
+            templateUrl:'./views/admin.html',
+            controller:'adminCtrl'
         });
 
 }).run();

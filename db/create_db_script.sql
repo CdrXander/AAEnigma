@@ -177,7 +177,7 @@ INSERT INTO public.country VALUES (5, 1, 'China', 'Chinese');
 INSERT INTO public.country VALUES (6, 1, 'United Kingdom', 'English');
 INSERT INTO public.country VALUES (7, 1, 'United Kingdom - Pacific', 'Pacific English');
 INSERT INTO public.country VALUES (8, 2, 'Italy', 'Italian');
-INSERT INTO public.country VALUES (9, 1, 'Austrailian and New Zealand Army Corp', 'ANZAC');
+INSERT INTO public.country VALUES (9, 1, 'ANZAC', 'ANZAC');
 INSERT INTO public.country VALUES (10, 2, 'France', 'French');
 
 -- Message Statuses

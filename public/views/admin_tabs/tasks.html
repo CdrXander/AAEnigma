@@ -1,0 +1,38 @@
+<section class="admin-tab">
+    <div class="work-box">
+        <div class="tools-pane">
+
+            <label>Open Tasks</label>
+            <section>
+                <ul>
+                    <li ng-repeat="task in taskList | filter: {'completed':false}">
+                        <span class="message-queue-item" ng-click="selectTask(task.id)">
+                            {{task.task_description}}
+                        </span>
+                    </li>
+                </ul>
+            </section>
+
+            <label>Completed Tasks</label>
+            <section>
+                <ul>
+                    <li ng-repeat="task in taskList | filter: {'completed':true}">
+                        <span class="message-queue-item" ng-click="selectTask(task.id)">
+                            {{task.task_description}}
+                        </span>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+
+        <div class="details-pane">
+            <p>Target Country: {{selectedTask.country_name}}</p>
+            <p>Task : {{selectedTask.task_description}}</p>
+            <p>Message Text : {{selectedTask.message_text}}</p>
+
+            <button ng-click="completeTask(selectedTask.id)">Mark Done</button>
+
+        </div>
+    </div>
+</section>

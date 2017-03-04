@@ -1,44 +1,81 @@
-<section class="encoderBox">
 
-    <div class="toolsPane">
-        <select ng-model="chosenCountry" ng-options="country.name for country in countryList">
-        </select>
-
-        <select ng-model="chosenBonus" ng-options="bonus.title for bonus in bonusList">
-        </select>
-
-        <select ng-model="chosenCipher" ng-options="cipher.cipher_word for cipher in cipherList">
-        </select>
-
-
-        <div>
-            <ul>
-                <li ng-repeat="message in messageList">
-                    {{message.country_name}} - {{message.title}}
-                </li>
-            </ul>
-        </div>
-
+<section class="encoder-view">
+    <div class="system-message-pane" ng-if="missingParams || messageFailed || messageSent">
+        <p class="system-error" ng-if="missingParams">
+            Message could not be sent. You need all of the following information:<br>
+            A selected country, a selected bonus, a selected cipher, and a message.
+        </p>
+        <p class="system-error" ng-if="messageFailed">
+            Your message did not send, due to an error with the system.<br>
+            Stupid gremlins...
+        </p>
+        <p class="system-success" ng-if="messageSent">
+            Your {{chosenCountry.demonym}} message was sent successfully.
+        </p>
     </div>
-    <div class="messagePane">
-        <div class="bonusDetail">
-            <p>
-                {{chosenBonus.bonus_description}}
-            </p>
+
+    <div class="work-box">
+        <div class="tools-pane">
+            <select ng-model="chosenCountry" ng-options="country.name for country in countryList">
+            </select>
+
+            <select ng-model="chosenBonus" ng-options="bonus.title for bonus in bonusList" ng-change="updateDefaultMsg()">
+            </select>
+
+            <select ng-model="chosenCipher" ng-options="cipher.cipher_word for cipher in cipherList">
+            </select>
+
+            <button ng-click="loadContent()">Refresh</button>
+
         </div>
-        <div class="defaultMessage">
-            <p>
+        <div class="details-pane">
+            <div class="bonusDetail">
+                <label>Description of Bonus</label>
+                <p>
+                    {{chosenBonus.bonus_description}}
+                </p>
+            </div>
+            <div>
+                <label>Message</label>
+                <textarea rows="4" cols="50" ng-model="inputMessage" ng-change="liveEncodeMessage()">
                 {{chosenBonus.default_message}}
-            </p>
-        </div>
-        <div>
-            <input type="text" ng-model="inputMessage" ng-change="liveEncodeMessage()">
-        </div>
-        <div>
-            <p>
-                {{encodedMessage}}
-            </p>
+            </textarea>
+            </div>
+            <div>
+                <p>
+                    {{encodedMessage}}
+                </p>
+            </div>
+            <button ng-click="validateMessage()">Send Message</button>
         </div>
     </div>
 
+    <div class="work-box">
+        <div class="tools-pane">
+            <div>
+                <div
+                        ng-repeat="message in messageList"
+                        class="message-status"
+                        ng-click="loadFullMessage(message.id)"
+                        ng-class="{'sent': message.message_status_id == 1}"
+                >
+                    <!--//                     , 'failed':message.message_status_id==3, 'success':message.message_status_id==4, 'used':message.message_status_id==5,}"-->
+
+                    {{message.country_name}} - {{message.title}}
+                </div>
+            </div>
+        </div>
+        <div class="details-pane">
+            <div class="detail-box">
+                <p>{{fullMessage.message_encoded}}</p>
+                <p>Cipher: {{fullMessage.cipher_word}}</p>
+                <p>{{fullMessage.message_plain}}</p>
+            </div>
+            <div class="detail-box">
+                <p>Country: {{fullMessage.country_name}}</p>
+                <p>Status: {{fullMessage.status_name}}</p>
+                <button ng-disabled="fullMessage.message_status_id != 4" ng-click="useBonus()">Use Bonus</button>
+            </div>
+        </div>
+    </div>
 </section>

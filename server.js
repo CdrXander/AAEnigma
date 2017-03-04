@@ -49,17 +49,31 @@ app.post('/api/auth/login', loginNode.login);
 
 //Logistics
 app.get('/api/country/list', logisticNode.getAllCountries);
+
+app.get('/api/status/list', logisticNode.getAllStatuses);
+
+app.post('/api/bonus', logisticNode.saveBonus);
 app.get('/api/bonus/list', logisticNode.getAllBonuses);
 app.get('/api/bonus/:id', logisticNode.getBonusById);
+
+app.post('/api/cipher', logisticNode.saveCipher);
 app.get('/api/cipher/list', logisticNode.getAllCiphers);
+
+app.post('/api/task', logisticNode.saveTask);
+app.get('/api/task/list', logisticNode.getAllTasks);
 
 
 //Messages
 app.post('/api/message', messageNode.createMessage);
 app.post('/api/message/encode', messageNode.encodeMessage);
+app.post('/api/message/guess', messageNode.guessCipherForMessage);
+app.post('/api/message/counter', messageNode.counterMessage);
 app.get('/api/message/full/:id', messageNode.getMessageFullById);
+app.get('/api/message/limited/:id', messageNode.getMessageLimitedById);
 app.get('/api/message/list/encoder', authCheck, messageNode.getEncoderMessageList);
-
+app.get('/api/message/list/decoder', authCheck, messageNode.getDecoderMessageList);
+app.get('/api/message/list/admin', messageNode.getAdminMessageList);
+app.post('/api/message/status', messageNode.updateMessageStatus);
 
 //Spin up the drives
 app.listen(port, function() {

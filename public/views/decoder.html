@@ -1,0 +1,46 @@
+<section class="decoder-view">
+
+    <div class="system-message-pane" ng-if="displayResult">
+        <div ng-if="guessResult">
+            <p>You guessed right</p>
+            <p>Do you wiah to counter the enemy bonus?</p>
+            <p>This will let them know that you have broken their cipher</p>
+            <button ng-click="counterMessage()">Counter Bonus</button>
+            <button ng-click="clearWork()">Allow Bonus</button>
+
+
+        </div>
+
+        <div ng-if="!guessResult">
+            you guessed wrong
+        </div>
+    </div>
+    <div class="work-box">
+        <div class="tools-pane">
+            <div>
+                <ul>
+                    <li ng-repeat="message in messageList">
+                        <span class="message-queue-item" ng-click="loadLimitedMessage(message.id)">
+                            {{message.country_name}} - {{message.title}}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="details-pane">
+            <div class="message-box">
+                {{selectedMessage.message_encoded}}
+            </div>
+
+            <div class="decryption-work-box">
+                <select ng-model="selectedCipher" ng-options="cipher.cipher_word for cipher in cipherList">
+                </select>
+
+                <button ng-click="guessCipher()" ng-disabled="selectedMessage.guessed">Submit Guess</button>
+            </div>
+        </div>
+    </div>
+
+
+</section>

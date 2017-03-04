@@ -3,9 +3,15 @@ var app =  require('./../server.js');
 
 module.exports = {
 	createMessage:createMessage,
-	getMessageFullById:getMessageFullById,
+    encodeMessage:encodeMessage,
+	guessCipherForMessage:guessCipherForMessage,
+	counterMessage:counterMessage,
+    getMessageFullById:getMessageFullById,
+    getMessageLimitedById:getMessageLimitedById,
 	getEncoderMessageList:getEncoderMessageList,
-	encodeMessage:encodeMessage
+	getDecoderMessageList:getDecoderMessageList,
+	getAdminMessageList:getAdminMessageList,
+	updateMessageStatus:updateMessageStatus
 };
 
 function createMessage(req,res) {
@@ -31,19 +37,73 @@ function createMessage(req,res) {
             res.status(500).send(err);
         }
 	})
+}
 
+function encodeMessage(req,res) {
+    var encodedMessage = enigmaAlgorithm(req.body.cipher_word, req.body.message_plain);
+    res.status(200).send(encodedMessage);
+}
+
+function guessCipherForMessage(req, res) {
+	var db = app.get('db');
+
+	db.message.findOne(parseInt(req.body.message_id), function(err, message) {
+		if(!err) {
+            db.message.update({id:req.body.message_id, guessed:true}, function(err, updatedMsg) {
+            	if(!err) {
+                    if(message.cipher_id == req.body.guessed_cipher_id) {
+						db.message.update({id:req.body.message_id,message_status_id:2}, function(err, response) {
+							if(!err) {
+                                res.status(200).send({guess:true});
+                            } else {
+                                console.log("Error in guessCipherForMessage");
+                                console.log(err);
+                                res.status(500).send(err);
+                            }
+						})
+                    } else {
+                    	res.status(200).send({guess:false});
+					}
+				} else {
+                    console.log("Error in guessCipherForMessage");
+                    console.log(err);
+                    res.status(500).send(err);
+				}
+			})
+		} else {
+            console.log("Error in guessCipherForMessage");
+            console.log(err);
+            res.status(500).send(err);
+        }
+	})
+}
+
+function counterMessage(req, res) {
+	var db = app.get('db');
+
+	db.message.update({id:req.body.message_id, message_status_id:3}, function(err, response) {
+		handleReturn("counterMessage", err, {}, res);
+	})
 }
 
 function getMessageFullById(req,res) {
     var db = app.get('db');
 
-    db.message.findOne(parseInt(req.params.id), function(err, message) {
+    db.get_full_message_by_id([parseInt(req.params.id)], function(err, message) {
         if(!err) {
-            res.status(200).send(message);
+            res.status(200).send(message[0]);
         } else {
             res.status(500).send(err);
         }
     })
+}
+
+function getMessageLimitedById(req, res) {
+	var db = app.get('db');
+
+	db.get_encoded_message_by_id([parseInt(req.params.id)], function(err, message) {
+		handleReturn("getEncoderLimitedMessageById", err, message, res);
+	})
 }
 
 function getEncoderMessageList(req,res) {
@@ -53,11 +113,34 @@ function getEncoderMessageList(req,res) {
 	 })
 }
 
-function encodeMessage(req,res) {
-	var encodedMessage = enigmaAlgorithm(req.body.cipher_word, req.body.message_plain);
-	res.status(200).send(encodedMessage);
+function getDecoderMessageList(req, res) {
+	var db = app.get('db');
+
+	db.get_decoder_message_list([req.session.currentUser.team_id], function(err, messageList) {
+		handleReturn("getDecoderMessageList",err,messageList,res);
+	})
 }
 
+function getAdminMessageList(req,res) {
+	var db = app.get('db');
+
+	db.get_admin_message_list([], function(err, messageList) {
+		handleReturn("getAdminMessageList", err, messageList, res);
+	})
+}
+
+function updateMessageStatus(req,res) {
+	var db = app.get('db');
+
+	var data = {
+		id:req.body.message_id,
+		message_status_id:req.body.new_status_id
+	};
+
+	db.message.update(data, function(err, updatedMessage) {
+		handleReturn("updateMessageStatus", err, updatedMessage, res);
+	})
+}
 
 
 
